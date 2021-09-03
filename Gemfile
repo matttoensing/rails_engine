@@ -11,7 +11,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'fast_jsonapi'
 gem 'factory_bot_rails'
 gem 'faker'
-
+gem 'will_paginate', '~> 3.1.0'
 
 group :development, :test do
   gem 'pry'
