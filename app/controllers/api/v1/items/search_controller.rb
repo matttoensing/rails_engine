@@ -3,8 +3,12 @@ module Api
     module Items
       class SearchController < ApplicationController
         def index
-          item = Item.search_results(params[:query])
-          render(json: ItemSerializer.new(item))
+          item = Item.search_results(params[:name])
+          if item.nil?
+            render(json: error_message(params[:name]), status: 400)
+          else
+            render(json: ItemSerializer.new(item))
+          end
         end
       end
     end

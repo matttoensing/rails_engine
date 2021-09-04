@@ -28,6 +28,19 @@ require 'rails_helper'
     end
    end
 
+   it 'can send a request for items for per page parameters' do
+     merchant = create(:merchant)
+     create_list(:item, 60, merchant_id: merchant.id)
+
+     get '/api/v1/items', params: { per_page: '50'}
+
+     expect(response).to be_successful
+
+     items = JSON.parse(response.body, symbolize_names: true)[:data]
+
+     expect(items.count).to eq(50)
+   end
+
    it 'can get one item by its id' do
      merchant = create(:merchant)
      item = create(:item, merchant: merchant)

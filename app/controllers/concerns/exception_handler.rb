@@ -11,4 +11,14 @@ module ExceptionHandler
       json_response({ message: e.message }, :unprocessable_entity)
     end
   end
+
+  def error_message(search)
+    { "data": {
+  "message": "your search could not be completed",
+  "errors": [
+    "search does not exist"
+    ]
+  }
+  }
+  end
 end
