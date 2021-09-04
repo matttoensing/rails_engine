@@ -1,11 +1,11 @@
 require 'rails_helper'
 
  RSpec.describe 'items api' do
-   it 'get all items, a maximum of 20 at a time' do
+   it 'sends a list of all items, a maximum of 20 at a time' do
      merchant = create(:merchant)
      create_list(:item, 40, merchant_id: merchant.id)
 
-     get '/api/v1/items?page=1'
+     get '/api/v1/items', params: { page: '1'}
 
      expect(response).to be_successful
 
@@ -82,6 +82,24 @@ require 'rails_helper'
 
      expect(found_item.name).to_not eq(previous_name)
      expect(found_item.name).to eq('Camelot 7')
+   end
+
+   it 'will return 400 status code if merchant id is bad and not update an existing item' do
+     merchant = create(:merchant)
+     item = create(:item, merchant: merchant)
+     previous_name = item.name
+     item_params = { name: 'Camelot 7' }
+     headers = {"CONTENT_TYPE" => 'application/json'}
+
+     patch "/api/v1/items/#{item.id}", headers: headers, params: JSON.generate(item: item_params)
+
+     expect(response).to be_successful
+     expect(response.status).to eq(400)
+     # { merchant_id: '999999999999' }
+     # found_item = Item.find(item.id)
+
+     # expect(found_item.name).to_not eq(previous_name)
+     # expect(found_item.name).to eq('Camelot 7')
    end
 
    it 'can delete an existing item' do
