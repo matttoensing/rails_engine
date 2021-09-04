@@ -28,4 +28,14 @@ module ExceptionHandler
   }
   }
   end
+
+  def items_update_error
+    { "data": {
+  "message": "update could not be completed",
+  "errors": [
+    "merchant does not exist"
+  ]
+  }
+  }
+  end
 end
