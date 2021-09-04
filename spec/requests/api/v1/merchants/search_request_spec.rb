@@ -30,7 +30,5 @@ require 'rails_helper'
      merchants = JSON.parse(response.body, symbolize_names: true)
 
      expect(merchants).to have_key(:data)
-     expect(merchants[:data]).to have_key(:message)
-     expect(merchants[:data]).to have_key(:errors)
    end
  end
