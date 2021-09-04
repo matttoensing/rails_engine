@@ -5,7 +5,7 @@ module Api
         def index
           item = Item.search_results(params[:name])
           if item.nil?
-            render(json: error_message(params[:name]), status: 400)
+            render(json: items_error_message(params[:name]), status: 400)
           else
             render(json: ItemSerializer.new(item))
           end

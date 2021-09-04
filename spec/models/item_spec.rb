@@ -18,6 +18,16 @@ require 'rails_helper'
 
          expect(Item.search_results(search_query)).to eq(item2)
        end
+
+       it 'can return one item closest to the search query' do
+         merchant = create(:merchant)
+         item1 = create(:item, name: 'Samsung', merchant: merchant)
+         item2 = create(:item, name: 'Microwave', merchant: merchant)
+         item3 = create(:item, merchant: merchant)
+         search_query = 'Iphone'
+
+         expect(Item.search_results(search_query)).to eq(nil)
+       end
      end
    end
  end
