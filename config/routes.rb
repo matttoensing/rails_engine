@@ -9,6 +9,10 @@ Rails.application.routes.draw do
         resources :find_all, only: [:index], controller: :search
       end
 
+      namespace :revenue do
+        resources :merchants, only: [:show]
+      end
+
       resources :merchants, only: [:index, :show]
       resources :items, except: [:new, :edit]
 
