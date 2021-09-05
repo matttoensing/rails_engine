@@ -3,7 +3,8 @@ module Api
     module Revenue
       class WeeklyController < ApplicationController
         def index
-
+          invoices = Invoice.weekly_revenue
+          render(json: WeeklyRevenueSerializer.format_json(invoices))
         end
       end
     end
