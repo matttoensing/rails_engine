@@ -23,13 +23,15 @@ RSpec.describe 'total merchant revenue api' do
 
     get "/api/v1/revenue/merchants/#{merchant.id}"
 
-    expect(responce).to be_successful
+    expect(response).to be_successful
 
     merchant_response = JSON.parse(response.body, symbolize_names: true)
 
     expect(merchant_response).to have_key(:data)
     expect(merchant_response[:data]).to have_key(:id)
+    expect(merchant_response[:data]).to have_key(:type)
+    expect(merchant_response[:data][:type]).to eq("merchant_revenue")
     expect(merchant_response[:data]).to have_key(:attributes)
-    expect(merchant_response[:data][:attributes][:merchant_revenue]).to eq(619.88)
+    expect(merchant_response[:data][:attributes][:revenue]).to eq(619.88)
   end
 end

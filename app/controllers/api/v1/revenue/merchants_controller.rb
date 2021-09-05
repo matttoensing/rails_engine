@@ -4,6 +4,7 @@ module Api
       class MerchantsController < ApplicationController
         def show
           merchant = Merchant.find(params[:id])
+          render(json: MerchantRevenueSerializer.new(merchant))
         end
       end
     end
