@@ -30,7 +30,7 @@ require 'rails_helper'
      invoice5 = create(:invoice, customer: customer3, merchant: merchant2, status: 'shipped')
      invoice6 = create(:invoice, customer: customer3, merchant: merchant2, status: 'shipped')
      invoice7 = create(:invoice, customer: customer4, merchant: merchant2, status: 'shipped')
-     invoice8 = create(:invoice, customer: customer4, merchant: merchant2, status: 'shipped')
+     invoice8 = create(:invoice, customer: customer4, merchant: merchant2, status: 'pending')
      transaction5 = create(:transaction, invoice: invoice5, result: 'success')
      transaction6 = create(:transaction, invoice: invoice6, result: 'success')
      transaction7 = create(:transaction, invoice: invoice7, result: 'success')
@@ -48,7 +48,7 @@ require 'rails_helper'
 
      requested_merchants = JSON.parse(response.body, symbolize_names: true)
 
-     expect(requested_merchants[:data].length]).to eq(2)
+     expect(requested_merchants[:data].length).to eq(2)
 
      merchants = requested_merchants[:data]
 
