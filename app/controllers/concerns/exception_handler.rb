@@ -37,4 +37,22 @@ def items_update_error
   }
   }
   end
+
+  def unshipped_invoices_error
+    { "data": {
+      "message": "request could not be completed",
+      "code": 400,
+      "errors": [
+        "wrong data type does not exist",
+      ]
+    }
+    }
+  end
+
+  def merchants_top_revenue_error
+    {
+      "message": "request could not be complete",
+      "error": "quantity must be present"
+    }
+    end
 end
