@@ -1,5 +1,4 @@
 module ExceptionHandler
-  # provides the more graceful `included` method
   extend ActiveSupport::Concern
 
   included do
@@ -14,28 +13,46 @@ module ExceptionHandler
 
   def merchants_error_message
     { "data": [
-  # "message": "your search could not be completed",
-  ]
+      # "message": "your search could not be completed",
+    ]
+  }
+end
+
+def items_error_message(search)
+  { "data": {
+    "message": "your search could not be completed",
+    "errors": [
+      "#{search} yielded zero results"
+    ]
+  }
+}
+end
+
+def items_update_error
+  { "data": {
+    "message": "update could not be completed",
+    "errors": [
+      "merchant does not exist"
+    ]
+  }
   }
   end
 
-  def items_error_message(search)
+  def unshipped_invoices_error
     { "data": {
-  "message": "your search could not be completed",
-  "errors": [
-    "#{search} yielded zero results"
-  ]
-  }
-  }
+      "message": "request could not be completed",
+      "code": 400,
+      "errors": [
+        "wrong data type does not exist",
+      ]
+    }
+    }
   end
 
-  def items_update_error
-    { "data": {
-  "message": "update could not be completed",
-  "errors": [
-    "merchant does not exist"
-  ]
-  }
-  }
-  end
+  def merchants_top_revenue_error
+    {
+      "message": "request could not be complete",
+      "error": "quantity must be present"
+    }
+    end
 end

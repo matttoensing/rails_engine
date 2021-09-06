@@ -71,7 +71,8 @@ require 'rails_helper'
      post '/api/v1/items', headers: headers, params: JSON.generate(item: item_params)
 
      expect(response).to be_successful
-
+     expect(response.status).to eq(201)
+     
      item = Item.last
 
      expect(item.name).to eq(item_params[:name])
