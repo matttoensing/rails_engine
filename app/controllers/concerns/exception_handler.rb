@@ -11,12 +11,16 @@ module ExceptionHandler
     end
   end
 
+  def object_not_found_error(id)
+    { "message": "Couldn't find Merchant with 'id'=#{id}"}
+  end
+
   def merchants_error_message
     { "data": [
       # "message": "your search could not be completed",
     ]
   }
-end
+  end
 
 def items_error_message(search)
   { "data": {
