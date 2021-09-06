@@ -41,8 +41,26 @@ require 'rails_helper'
      invoice_item8 = create(:invoice_item, unit_price: 39.99, quantity: 4, item: item6, invoice: invoice8)
    end
 
-   it 'can send a list merchants who have accumulated the most revenue in the system' do
-     get '/api/v1/revenue/merchants', params: { quantity: 10 }
+   it 'happy path, top one merchant by revenue' do
+     get '/api/v1/revenue/merchants', params: { quantity: 1 }
+
+     expect(response).to be_successful
+
+     requested_merchants = JSON.parse(response.body, symbolize_names: true)
+
+     expect(requested_merchants[:data].length).to eq(1)
+
+     merchants = requested_merchants[:data]
+
+     merchants.each do |merchant|
+       expect(merchant).to have_key(:attributes)
+       expect(merchant).to have_key(:type)
+       expect(merchant[:type]).to eq('merchant_name_revenue')
+     end
+   end
+
+   it 'happy path, all 100 merchants if quantity is too big' do
+     get '/api/v1/revenue/merchants', params: { quantity: 100000 }
 
      expect(response).to be_successful
 
@@ -57,5 +75,19 @@ require 'rails_helper'
        expect(merchant).to have_key(:type)
        expect(merchant[:type]).to eq('merchant_name_revenue')
      end
+   end
+
+   it 'sad path, returns an error of some sort if quantity is a string' do
+     get '/api/v1/revenue/merchants', params: { quantity: 'asdasd' }
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+   end
+
+   it 'edge case sad path, quantity param is missing' do
+     get '/api/v1/revenue/merchants'
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
    end
  end

@@ -52,13 +52,13 @@ require 'rails_helper'
    end
 
    it 'can request a list of invoices with unshipped status and include revenue with a specified quantity' do
-     get '/api/v1/revenue/unshipped', params: {quantity: 2}
+     get '/api/v1/revenue/unshipped', params: {quantity: 4}
 
      expect(response).to be_successful
 
      invoices = JSON.parse(response.body, symbolize_names: true)
 
-     expect(invoices[:data].count).to eq(2)
+     expect(invoices[:data].count).to eq(4)
    end
 
    it 'returns an error of some sort if quantity value is blank' do
