@@ -4,9 +4,9 @@ module Api
       class MerchantsController < ApplicationController
 
         def index
-          if !params['quantity'].present?
-            json_response(merchants_top_revenue_error, 400)
-          elsif params['quantity'].to_i > 100
+          if !params[:quantity].present?
+            render(merchants_top_revenue_error, status: 400)
+          elsif params[:quantity].to_i > 100
             merchant_count = Merchant.count
             merchants = Merchant.merchants_with_most_revenue(merchant_count)
             render(json: RevenueSerializer.format_top_revenue(merchants), status: 200)
