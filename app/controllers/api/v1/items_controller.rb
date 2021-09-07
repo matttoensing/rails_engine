@@ -3,6 +3,9 @@ class Api::V1::ItemsController < ApplicationController
     if params[:per_page].present? && !params[:page].present?
       items = Item.paginate(:page => nil, :per_page => params[:per_page])
       render(json: ItemSerializer.new(items))
+    elsif params[:page].present? && params[:page].to_i <= 0
+      items = Item.paginate(:page => 1, :per_page => 20)
+      render(json: ItemSerializer.new(items))
     else
       items = Item.paginate(:page => params[:page], :per_page => 20)
       render(json: ItemSerializer.new(items))
@@ -14,7 +17,12 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    render(json: ItemSerializer.new(Item.create(item_params)))
+    item = Item.create(item_params)
+    if item.save
+      render(json: ItemSerializer.new(Item.create(item_params)))
+    else
+      json_response(missing_attributes_error, 404)
+    end
   end
 
   def update

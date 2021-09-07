@@ -53,6 +53,18 @@ def items_update_error
     }
   end
 
+  def missing_attributes_error
+    { "data": { "message": "missing attributes"}}
+  end
+
+  def item_min_price_search_error
+    { "error": "no items meet this price"}
+  end
+
+  def item_min_price_too_big
+    { "data": { "error": "no items meet this price"}}
+  end
+
   def merchants_top_revenue_error
     {
       "message": "request could not be complete",
