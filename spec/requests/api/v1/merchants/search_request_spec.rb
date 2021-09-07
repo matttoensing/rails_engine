@@ -31,4 +31,19 @@ require 'rails_helper'
 
      expect(merchants).to have_key(:data)
    end
+
+   describe 'extensions' do
+     it 'edge case, no name given' do
+       merchant = create(:merchant, name: 'Ace Hardware')
+
+       get '/api/v1/merchants/find_all', params: {name: '' }
+
+       expect(response).to_not be_successful
+       expect(response.status).to eq(400)
+
+       error = JSON.parse(response.body, symbolize_names: true)
+
+       expect(error).to have_key(:error)
+     end
+   end
  end

@@ -24,4 +24,15 @@ require 'rails_helper'
 
      expect(error).to have_key(:message)
    end
+
+   it 'sad path, string id returns 404(extension)' do
+     get '/api/v1/merchants/stingy-sting-string/items'
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(404)
+
+     error = JSON.parse(response.body, symbolize_names: true)
+
+     expect(error).to have_key(:error)
+   end
  end
