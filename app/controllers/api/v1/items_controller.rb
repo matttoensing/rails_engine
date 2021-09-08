@@ -21,7 +21,7 @@ class Api::V1::ItemsController < ApplicationController
     if item.save
       json_response(ItemSerializer.new(item))
     else
-      json_response(missing_attributes_error, 404)
+      json_response(ItemSerializer.missing_attributes_error, 404)
     end
   end
 
@@ -31,10 +31,13 @@ class Api::V1::ItemsController < ApplicationController
     if params[:merchant_id].present?
       merchant = Merchant.find(params[:merchant_id])
       return json_response(items_update_error, status: 404) if merchant.nil?
+
       json_response(ItemSerializer.new(Item.update(params[:id], item_params)))
+      
     elsif !params[:merchant_id].present?
       merchant = item.merchant
-      return json_response(items_update_error, status: 404) if merchant.nil?
+      return json_response(ItemSerializer.items_update_error, status: 404) if merchant.nil?
+
       json_response(ItemSerializer.new(Item.update(params[:id], item_params)))
     else
       json_response(ItemSerializer.new(Item.update(params[:id], item_params)))
