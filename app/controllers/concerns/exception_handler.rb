@@ -55,7 +55,7 @@ def items_update_error
   end
 
   def item_min_price_search_error
-    { "error": "no items meet this price"}
+    { "error": "no items meets this price"}
   end
 
   def merchant_id_string_error

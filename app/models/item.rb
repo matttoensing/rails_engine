@@ -20,7 +20,7 @@ class Item < ApplicationRecord
   end
 
   def self.find_by_min_price(min_price)
-    where('unit_price >= ?', min_price).order(:unit_price).first
+    where('unit_price >= ?', min_price).order(:name).first
   end
 
   def self.find_by_max_price(max_price)

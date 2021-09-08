@@ -16,7 +16,7 @@ module Api
               json_response(item_min_price_search_error, 400)
 
             elsif params[:name].present? && params[:max_price].present?
-                json_response(item_min_price_search_error, 400)
+              json_response(item_min_price_search_error, 400)
 
             elsif params[:min_price].present? && params[:min_price].to_i > 10000
               json_response(item_min_price_too_big)
@@ -43,12 +43,3 @@ module Api
     end
   end
 end
-
-
-
-
-
-#
-
-
-# end
