@@ -3,8 +3,8 @@ require 'rails_helper'
  RSpec.describe 'find item by min price api' do
    it 'happy path, fetch one item by min_price' do
      merchant = create(:merchant)
-     item1 = create(:item, unit_price: 99.99, merchant: merchant)
-     item2 = create(:item, unit_price: 50.03, merchant: merchant)
+     item1 = create(:item, unit_price: 99.99, name: 'Offset Alien', merchant: merchant)
+     item2 = create(:item, unit_price: 50.03, name: 'Camelot 5', merchant: merchant)
 
      get '/api/v1/items/find', params: { min_price: 50 }
 
