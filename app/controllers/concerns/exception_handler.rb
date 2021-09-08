@@ -11,12 +11,13 @@ module ExceptionHandler
     end
   end
 
+  def object_not_found_error(id)
+    { "message": "Couldn't find Merchant with 'id'=#{id}"}
+  end
+
   def merchants_error_message
-    { "data": [
-      # "message": "your search could not be completed",
-    ]
-  }
-end
+    { "data": []}
+  end
 
 def items_error_message(search)
   { "data": {
@@ -47,6 +48,22 @@ def items_update_error
       ]
     }
     }
+  end
+
+  def missing_attributes_error
+    { "data": { "message": "missing attributes"}}
+  end
+
+  def item_min_price_search_error
+    { "error": "no items meets this price"}
+  end
+
+  def merchant_id_string_error
+    { "error": "merchant could not be found"}
+  end
+
+  def item_min_price_too_big
+    { "data": { "error": "no items meet this price"}}
   end
 
   def merchants_top_revenue_error

@@ -3,11 +3,15 @@ module Api
     module Merchants
       class SearchController < ApplicationController
         def index
-          merchants = Merchant.search_results(params[:name])
-          if merchants.nil?
-            render(json: merchants_error_message, status: 400)
+          if params[:name] == ''
+            json_response(merchant_id_string_error, 400)
           else
-            render(json: MerchantSerializer.new(merchants))
+            merchants = Merchant.search_results(params[:name])
+            if merchants.nil?
+              json_response(merchants_error_message, 400)
+            else
+              json_response(MerchantSerializer.new(merchants))
+            end
           end
         end
       end

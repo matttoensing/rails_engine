@@ -1,6 +1,10 @@
 class Api::V1::MerchantItemsController < ApplicationController
   def index
-    merchant = Merchant.find(params[:merchant_id])
-    render(json: ItemSerializer.new(merchant.items))
+    if params[:merchant_id].to_i.zero?
+      json_response(merchant_id_string_error, 404)
+    else
+      merchant = Merchant.find(params[:merchant_id])
+      json_response(ItemSerializer.new(merchant.items))
+    end
   end
 end

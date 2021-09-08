@@ -1,7 +1,7 @@
 require 'rails_helper'
 
  RSpec.describe 'items search api' do
-   it 'can send one item based off a search' do
+   it 'can send one item based off a search(happy path, fetch one item by fragment)' do
      merchant = create(:merchant)
      item1 = create(:item, name: 'Samsung', merchant: merchant)
      item2 = create(:item, name: 'iPhone 4', merchant: merchant)
@@ -24,7 +24,7 @@ require 'rails_helper'
      expect(data[:attributes][:name]).to eq('iPhone 4')
    end
 
-   it 'will not send an item if no items match search query' do
+   it 'will not send an item if no items match search query(sad path, no fragment matched)' do
      merchant = create(:merchant)
      item1 = create(:item, name: 'Samsung', merchant: merchant)
      item2 = create(:item, name: 'Microwave', merchant: merchant)
@@ -32,7 +32,8 @@ require 'rails_helper'
 
      get '/api/v1/items/find', params: { name: search_query}
 
-      expect(response.status).to eq(400)
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
 
      error_message = JSON.parse(response.body, symbolize_names: true)
 
@@ -40,4 +41,20 @@ require 'rails_helper'
      expect(error_message[:data]).to have_key(:message)
      expect(error_message[:data]).to have_key(:errors)
    end
+
+   # describe 'extensions' do
+   #   xit 'edge case, no name given' do
+   #     merchant = create(:merchant)
+   #     item = create(:item, name: 'Samsung', merchant: merchant)
+   #
+   #     get '/api/v1/items/find', params: { name: ''}
+   #
+   #     expect(response).to_not be_successful
+   #     expect(response.status).to eq(400)
+   #
+   #     error_message = JSON.parse(response.body, symbolize_names: true)
+   #
+   #     expect(error_message).to have_key(:error)
+   #   end
+   # end
  end
