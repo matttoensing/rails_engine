@@ -25,17 +25,4 @@ module ExceptionHandler
     }
     }
   end
-
-
-
-
-
-
-
-  def merchants_top_revenue_error
-    {
-      "message": "request could not be complete",
-      "error": "quantity must be present"
-    }
-    end
 end
