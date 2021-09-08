@@ -29,13 +29,13 @@ RSpec.describe Item do
     describe '#find_by_min_price' do
       it 'can return an item closest to a min price range' do
         merchant = create(:merchant)
-        item1 = create(:item, unit_price: 99.99, merchant: merchant)
-        item2 = create(:item, unit_price: 29.99, merchant: merchant)
+        item1 = create(:item, unit_price: 99.99, name: 'Camelot 6', merchant: merchant)
+        item2 = create(:item, unit_price: 29.99, name: 'Offset Aleins', merchant: merchant)
         item3 = create(:item, unit_price: 9.99, merchant: merchant)
 
         min_price = 10.99
 
-        expected = item2
+        expected = item1
 
         expect(Item.find_by_min_price(min_price)).to eq(expected)
       end
