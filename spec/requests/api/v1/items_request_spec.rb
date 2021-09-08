@@ -266,7 +266,43 @@ require 'rails_helper'
      delete "/api/v1/items/#{item.id}"
 
      expect(response).to be_successful
+     expect(response.status).to eq(204)
      expect(Item.count).to eq(0)
      expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+   end
+
+   it 'can delete an invoice and invoice item if it is the only item associated with an item when that item is deleted' do
+     merchant1 = create(:merchant)
+     customer1 = create(:customer)
+     item1 = create(:item, merchant: merchant1)
+     invoice1 = create(:invoice, merchant: merchant1, customer: customer1)
+     invoice_item1 = create(:invoice_item, invoice: invoice1, item: item1)
+
+     item2 = create(:item, merchant: merchant1)
+     item3 = create(:item, merchant: merchant1)
+     invoice2 = create(:invoice, merchant: merchant1, customer: customer1)
+     invoice_item2 = create(:invoice_item, invoice: invoice2, item: item2)
+     invoice_item3 = create(:invoice_item, invoice: invoice2, item: item3)
+
+     expect(Item.count).to eq(3)
+
+     delete "/api/v1/items/#{item1.id}"
+
+     expect(response).to be_successful
+     expect(Item.count).to eq(2)
+     expect(Invoice.count).to eq(1)
+     expect(InvoiceItem.count).to eq(2)
+     expect{Item.find(item1.id)}.to raise_error(ActiveRecord::RecordNotFound)
+
+     expect{Invoice.find(invoice1.id)}.to raise_error(ActiveRecord::RecordNotFound)
+
+     expect{InvoiceItem.find(invoice_item1.id)}.to raise_error(ActiveRecord::RecordNotFound)
+
+     delete "/api/v1/items/#{item2.id}"
+
+     expect(response).to be_successful
+     expect(Item.count).to eq(1)
+     expect(Invoice.count).to eq(1)
+     expect(InvoiceItem.count).to eq(1)
    end
  end

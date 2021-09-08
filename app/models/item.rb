@@ -1,11 +1,19 @@
 class Item < ApplicationRecord
+  before_destroy :destroy_invoices
+
   belongs_to :merchant
-  has_many :invoice_items, dependent: :destroy
+  has_many :invoice_items, dependent: :delete_all
   has_many :invoices, through: :invoice_items, dependent: :destroy
 
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true
+
+  def destroy_invoices
+    invoices.each do |invoice|
+      invoice.destroy if invoice.items.count == 1
+    end
+  end
 
   def self.search_results(query)
     where('LOWER(name) LIKE ?', "%#{query.downcase}%").first
@@ -23,3 +31,6 @@ class Item < ApplicationRecord
     where("unit_price <= #{max_price} AND unit_price >= #{min_price}").order(:unit_price)
   end
 end
+
+
+# dependent: :destroy

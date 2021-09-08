@@ -42,7 +42,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def destroy
-    json_response(Item.destroy(params[:id]))
+    json_response(Item.destroy(params[:id]), 204)
   end
 
   private

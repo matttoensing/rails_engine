@@ -16,10 +16,7 @@ module ExceptionHandler
   end
 
   def merchants_error_message
-    { "data": [
-      # "message": "your search could not be completed",
-    ]
-  }
+    { "data": []}
   end
 
 def items_error_message(search)
