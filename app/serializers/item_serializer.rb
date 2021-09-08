@@ -15,4 +15,22 @@ class ItemSerializer
     }
   }
   end
+
+  def self.items_error_message(search)
+    { "data": {
+      "message": "your search could not be completed",
+      "errors": [
+        "#{search} yielded zero results"
+      ]
+    }
+  }
+  end
+
+  def self.item_min_price_search_error
+    { "error": "no items meets this price"}
+  end
+
+  def self.item_min_price_too_big
+    { "data": { "error": "no items meet this price"}}
+  end
 end

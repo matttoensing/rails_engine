@@ -15,17 +15,6 @@ module ExceptionHandler
     { "message": "Couldn't find Merchant with 'id': #{id}"}
   end
 
-def items_error_message(search)
-  { "data": {
-    "message": "your search could not be completed",
-    "errors": [
-      "#{search} yielded zero results"
-    ]
-  }
-}
-end
-
-
   def unshipped_invoices_error
     { "data": {
       "message": "request could not be completed",
@@ -37,15 +26,11 @@ end
     }
   end
 
-  def item_min_price_search_error
-    { "error": "no items meets this price"}
-  end
 
 
 
-  def item_min_price_too_big
-    { "data": { "error": "no items meet this price"}}
-  end
+
+
 
   def merchants_top_revenue_error
     {
