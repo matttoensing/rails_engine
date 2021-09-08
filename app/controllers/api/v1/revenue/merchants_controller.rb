@@ -8,10 +8,10 @@ class Api::V1::Revenue::MerchantsController < ApplicationController
     elsif params[:quantity].to_i > 100
       merchant_count = Merchant.count
       merchants = Merchant.merchants_with_most_revenue(merchant_count)
-      json_response(RevenueSerializer.format_top_revenue(merchants), 200)
+      json_response(MerchantRevenueSerializer.format_top_revenue(merchants), 200)
     else
       merchants = Merchant.merchants_with_most_revenue(params['quantity'])
-      json_response(RevenueSerializer.format_top_revenue(merchants), 200)
+      json_response(MerchantRevenueSerializer.format_top_revenue(merchants), 200)
     end
   end
 

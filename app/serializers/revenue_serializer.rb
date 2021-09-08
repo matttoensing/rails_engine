@@ -15,19 +15,6 @@ class RevenueSerializer
         end
       end
 
-      def self.format_top_revenue(merchants)
-        { data: top_revenue(merchants).flatten}
-      end
-
-      def self.top_revenue(merchants)
-        merchants.map do |merchant|
-          [id: merchant.id.to_s,
-          type: 'merchant_name_revenue',
-          attributes:
-          { name: merchant.name,
-            revenue: merchant.revenue }]
-        end
-      end
 
       def self.format_unshipped_invoices(invoices)
         { data: unshipped_invoices(invoices).flatten }
