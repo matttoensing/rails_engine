@@ -4,7 +4,7 @@ class Api::V1::MerchantItemsController < ApplicationController
       json_response(merchant_id_string_error, 404)
     else
       merchant = Merchant.find(params[:merchant_id])
-      render(json: ItemSerializer.new(merchant.items))
+      json_response(ItemSerializer.new(merchant.items))
     end
   end
 end
