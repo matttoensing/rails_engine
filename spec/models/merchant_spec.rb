@@ -99,7 +99,7 @@ require 'rails_helper'
          invoice_item3 = create(:invoice_item, unit_price: 49.99, quantity: 2, item: item3, invoice: invoice3)
          invoice_item4 = create(:invoice_item, unit_price: 19.99, quantity: 4, item: item2, invoice: invoice4)
 
-         expect(merchant.total_revenue).to eq(619.88)
+         expect(merchant.revenue).to eq(619.88)
        end
      end
    end

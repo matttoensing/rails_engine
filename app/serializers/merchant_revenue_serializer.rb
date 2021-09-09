@@ -2,7 +2,7 @@ class MerchantRevenueSerializer
   include FastJsonapi::ObjectSerializer
 
   attributes :revenue do |merchant|
-    merchant.total_revenue
+    merchant.revenue
   end
 
   def self.merchants_top_revenue_error

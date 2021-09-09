@@ -7,7 +7,7 @@ class Api::V1::MerchantsController < ApplicationController
       merchants = Merchant.paginate(:page => 1, :per_page => 20)
       json_response(MerchantSerializer.new(merchants))
     else
-      merchants = Merchant.paginate(:page => params[:page], :per_page => 20)
+      merchants = Merchant.paginate(:page => params[:page].to_i, :per_page => 20)
       json_response(MerchantSerializer.new(merchants))
     end
   end

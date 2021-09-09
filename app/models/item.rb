@@ -31,6 +31,3 @@ class Item < ApplicationRecord
     where("unit_price <= #{max_price} AND unit_price >= #{min_price}").order(:unit_price)
   end
 end
-
-
-# dependent: :destroy

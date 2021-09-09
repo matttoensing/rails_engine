@@ -8,7 +8,7 @@ class Merchant < ApplicationRecord
     merchants.empty? ? nil : merchants
   end
 
-  def total_revenue
+  def revenue
     invoices.joins(:invoice_items).joins(:transactions).select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue').where('invoices.status = ?', 'shipped').where('transactions.result = ?', 'success').sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
