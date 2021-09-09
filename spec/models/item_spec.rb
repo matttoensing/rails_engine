@@ -83,7 +83,7 @@ RSpec.describe Item do
 
           item.destroy_invoices
 
-          expect{Invoice.find(invoice.id)}.to raise_error(ActiveRecord::RecordNotFound)
+          expect { Invoice.find(invoice.id) }.to raise_error(ActiveRecord::RecordNotFound)
         end
 
         it 'it wont delete an invoice if there are more items on the invoice' do
@@ -97,7 +97,7 @@ RSpec.describe Item do
 
           item1.destroy_invoices
 
-          expect{Invoice.find(invoice1.id)}.to_not raise_error(ActiveRecord::RecordNotFound)
+          expect(Invoice.find(invoice1.id)).to eq(invoice1)
         end
       end
     end

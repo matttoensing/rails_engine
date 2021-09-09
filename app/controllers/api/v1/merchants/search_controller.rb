@@ -1,20 +1,18 @@
-module Api
-  module V1
-    module Merchants
-      class SearchController < ApplicationController
-        def index
-          if params[:name] == ''
-            json_response(merchant_id_string_error, 400)
-          else
-            merchants = Merchant.search_results(params[:name])
-            if merchants.nil?
-              json_response(merchants_error_message, 400)
-            else
-              json_response(MerchantSerializer.new(merchants))
-            end
-          end
-        end
-      end
+class Api::V1::Merchants::SearchController < ApplicationController
+  def index
+    if name_missing?
+      json_response(ErrorMessage.merchant_id_string_error('name', params[:name]), :bad_request)
+    else
+      merchants = Merchant.search_results(params[:name])
+      return json_response(ErrorMessage.merchants_error_message, :bad_request) if merchants.nil?
+
+      json_response(MerchantSerializer.new(merchants))
     end
+  end
+
+  private
+
+  def name_missing?
+    params[:name] == ''
   end
 end

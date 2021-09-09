@@ -1,45 +1,63 @@
-module Api
-  module V1
-    module Items
-      class SearchController < ApplicationController
-        def index
-          if !params[:max_price].present? && !params[:min_price].present?
-            item = Item.search_results(params[:name])
-            return json_response(items_error_message(params[:name]), 400) if item.nil?
+class Api::V1::Items::SearchController < ApplicationController
+  MAX_MIN_PRICE = 10_000
 
-            item = Item.search_results(params[:name])
-            json_response(ItemSerializer.new(item))
+  def index
+    if search_by_name_only?
+      item = Item.search_results(params[:name])
+      return json_response(ErrorMessage.items_error_message(params[:name]), 400) if item.nil?
 
-          else
+      item = Item.search_results(params[:name])
+      json_response(ItemSerializer.new(item))
 
-            if params[:name].present? && params[:min_price].present?
-              json_response(item_min_price_search_error, 400)
+    elsif searching_for_name_and_price_range?
 
-            elsif params[:name].present? && params[:max_price].present?
-              json_response(item_min_price_search_error, 400)
+      json_response(ErrorMessage.item_min_price_search_error, :bad_request)
 
-            elsif params[:min_price].present? && params[:min_price].to_i > 10000
-              json_response(item_min_price_too_big)
+    elsif min_price_out_of_bounds?
+      json_response(ErrorMessage.item_min_price_too_big)
 
-            elsif params[:min_price].present? && params[:max_price].present?
-              item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
-              json_response(ItemSerializer.new(item))
+    elsif valid_min_and_max_price?
+      item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
 
-            elsif params[:min_price].present? && !params[:max_price].present?
-              return json_response(item_min_price_search_error, 400) if params[:min_price].to_i <= 0
+      json_response(ItemSerializer.new(item))
 
-              item = Item.find_by_min_price(params[:min_price].to_i)
-              json_response(ItemSerializer.new(item))
+    elsif missing_max_price?
+      return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:min_price].to_i <= 0
 
-            elsif !params[:min_price].present? && params[:max_price].present?
-                return json_response(item_min_price_search_error, 400) if params[:max_price].to_i <= 0
+      item = Item.find_by_min_price(params[:min_price].to_i)
+      json_response(ItemSerializer.new(item))
 
-              item = Item.find_by_max_price(params[:max_price].to_i)
-              json_response(ItemSerializer.new(item))
-            end
-          end
-        end
-      end
+    elsif missing_min_price?
+      return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:max_price].to_i <= 0
+
+      item = Item.find_by_max_price(params[:max_price].to_i)
+      json_response(ItemSerializer.new(item))
     end
+  end
+
+  private
+
+  def search_by_name_only?
+    !params[:max_price].present? && !params[:min_price].present?
+  end
+
+  def searching_for_name_and_price_range?
+    params[:name].present? && params[:min_price].present? || params[:name].present? && params[:max_price].present?
+  end
+
+  def min_price_out_of_bounds?
+    params[:min_price].present? && params[:min_price].to_i > MAX_MIN_PRICE
+  end
+
+  def valid_min_and_max_price?
+    params[:min_price].present? && params[:max_price].present?
+  end
+
+  def missing_max_price?
+    params[:min_price].present? && !params[:max_price].present?
+  end
+
+  def missing_min_price?
+    !params[:min_price].present? && params[:max_price].present?
   end
 end

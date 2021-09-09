@@ -1,18 +1,22 @@
-module Api
-  module V1
-    module Revenue
-      class UnshippedController < ApplicationController
-        def index
-          if !params[:quantity].present? && params[:quantity] == ""
-            json_response(unshipped_invoices_error, 400)
-          elsif params[:quantity].present? && params[:quantity].to_i.zero?
-            json_response(unshipped_invoices_error, 400)
-          else
-            invoices = Invoice.unshipped_revenue
-            render(json: RevenueSerializer.format_unshipped_invoices(invoices))
-          end
-        end
-      end
+class Api::V1::Revenue::UnshippedController < ApplicationController
+  def index
+    if quantity_missing?
+      json_response(ErrorMessage.unshipped_invoices_error, :bad_request)
+    elsif quantity_is_string?
+      json_response(ErrorMessage.unshipped_invoices_error, :bad_request)
+    else
+      invoices = Invoice.unshipped_revenue
+      json_response(UnshippedRevenueSerializer.new(invoices))
     end
+  end
+
+  private
+
+  def quantity_missing?
+    params[:quantity] == ''
+  end
+
+  def quantity_is_string?
+    params[:quantity].present? && params[:quantity].to_i.zero?
   end
 end
