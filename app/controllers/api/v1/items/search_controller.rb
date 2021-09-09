@@ -2,7 +2,10 @@ class Api::V1::Items::SearchController < ApplicationController
   MAX_MIN_PRICE = 10_000
 
   def index
-    if search_by_name_only?
+    if name_is_missing? || no_params_given?
+      json_response(ErrorMessage.wrong_item_params_error, :bad_request)
+
+    elsif search_by_name_only?
       item = Item.search_results(params[:name])
       return json_response(ErrorMessage.items_error_message(params[:name]), 400) if item.nil?
 
@@ -10,7 +13,7 @@ class Api::V1::Items::SearchController < ApplicationController
       json_response(ItemSerializer.new(item))
 
     elsif searching_for_name_and_price_range?
-
+      
       json_response(ErrorMessage.item_min_price_search_error, :bad_request)
 
     elsif min_price_out_of_bounds?
@@ -59,5 +62,13 @@ class Api::V1::Items::SearchController < ApplicationController
 
   def missing_min_price?
     !params[:min_price].present? && params[:max_price].present?
+  end
+
+  def name_is_missing?
+    params[:name].present? && params[:name] == ''
+  end
+
+  def no_params_given?
+    !params[:name].present? && !params[:min_price].present? && !params[:max_price].present?
   end
 end

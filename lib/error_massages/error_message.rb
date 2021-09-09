@@ -43,4 +43,11 @@ class ErrorMessage
       ]
     } }
   end
+
+  def self.wrong_item_params_error
+    {
+      "message": 'request could not be complete',
+      "error": 'params must be present'
+    }
+  end
 end
