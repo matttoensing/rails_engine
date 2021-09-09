@@ -41,20 +41,4 @@ require 'rails_helper'
      expect(error_message[:data]).to have_key(:message)
      expect(error_message[:data]).to have_key(:errors)
    end
-
-   # describe 'extensions' do
-   #   xit 'edge case, no name given' do
-   #     merchant = create(:merchant)
-   #     item = create(:item, name: 'Samsung', merchant: merchant)
-   #
-   #     get '/api/v1/items/find', params: { name: ''}
-   #
-   #     expect(response).to_not be_successful
-   #     expect(response.status).to eq(400)
-   #
-   #     error_message = JSON.parse(response.body, symbolize_names: true)
-   #
-   #     expect(error_message).to have_key(:error)
-   #   end
-   # end
  end

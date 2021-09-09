@@ -212,6 +212,31 @@ require 'rails_helper'
 
      expect(response).to be_successful
 
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:data)
+
+     found_item = Item.find(item.id)
+
+     expect(found_item.name).to_not eq(previous_name)
+     expect(found_item.name).to eq('Camelot 7')
+   end
+
+   it 'can update an existing item with a merchant id included in params(happy path with partial data)' do
+     merchant = create(:merchant)
+     item = create(:item, merchant: merchant)
+     previous_name = item.name
+     item_params = { name: 'Camelot 7'}
+     headers = {"CONTENT_TYPE" => 'application/json'}
+
+     patch "/api/v1/items/#{item.id}", headers: headers, params: JSON.generate(item: item_params, merchant_id: merchant.id)
+
+     expect(response).to be_successful
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:data)
+
      found_item = Item.find(item.id)
 
      expect(found_item.name).to_not eq(previous_name)
@@ -229,6 +254,10 @@ require 'rails_helper'
 
      expect(response).to_not be_successful
      expect(response.status).to eq(404)
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:message)
    end
 
    it 'will return 400 status code if merchant id is bad and not update an existing item(edge case, bad merchant id returns 400 or 404)' do
@@ -242,6 +271,10 @@ require 'rails_helper'
 
      expect(response).to_not be_successful
      expect(response.status).to eq(404)
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:message)
    end
 
    it 'edge case, string id returns 404' do
@@ -255,6 +288,10 @@ require 'rails_helper'
 
      expect(response).to_not be_successful
      expect(response.status).to eq(404)
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:message)
    end
 
    it 'can delete an existing item' do

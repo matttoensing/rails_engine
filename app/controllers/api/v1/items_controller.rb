@@ -27,17 +27,8 @@ class Api::V1::ItemsController < ApplicationController
 
   def update
     item = Item.find(params[:id])
-
     if params[:merchant_id].present?
       merchant = Merchant.find(params[:merchant_id])
-      return json_response(items_update_error, status: 404) if merchant.nil?
-
-      json_response(ItemSerializer.new(Item.update(params[:id], item_params)))
-      
-    elsif !params[:merchant_id].present?
-      merchant = item.merchant
-      return json_response(ItemSerializer.items_update_error, status: 404) if merchant.nil?
-
       json_response(ItemSerializer.new(Item.update(params[:id], item_params)))
     else
       json_response(ItemSerializer.new(Item.update(params[:id], item_params)))

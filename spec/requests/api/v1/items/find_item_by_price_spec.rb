@@ -39,10 +39,29 @@ require 'rails_helper'
      item1 = create(:item, unit_price: 99.99, merchant: merchant)
      item2 = create(:item, unit_price: 50.03, merchant: merchant)
 
-     get '/api/v1/items/find', params: { min_price: 100000000, name: 'ring' }
+     get '/api/v1/items/find', params: {name: 'ring', min_price: 100000000 }
 
      expect(response).to_not be_successful
      expect(response.status).to eq(400)
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:error)
+   end
+
+   it 'sad path, cannot send name and max_price' do
+     merchant = create(:merchant)
+     item1 = create(:item, unit_price: 99.99, merchant: merchant)
+     item2 = create(:item, unit_price: 50.03, merchant: merchant)
+
+     get '/api/v1/items/find', params: {name: 'ring', max_price: 100 }
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     json = JSON.parse(response.body, symbolize_names: true)
+
+     expect(json).to have_key(:error)
    end
 
    it 'happy path, fetch one item by max price' do
@@ -86,5 +105,20 @@ require 'rails_helper'
 
      expect(response).to_not be_successful
      expect(response.status).to eq(400)
+   end
+
+   it 'happy path, can send both min and max params at the same time' do
+     merchant = create(:merchant)
+     item1 = create(:item, unit_price: 99.99, merchant: merchant)
+     item2 = create(:item, unit_price: 50.03, merchant: merchant)
+
+     get '/api/v1/items/find', params: { min_price: 5, max_price: 100 }
+
+     expect(response).to be_successful
+     expect(response.status).to eq(200)
+
+     items = JSON.parse(response.body, symbolize_names: true)
+
+     expect(items).to have_key(:data)
    end
  end
