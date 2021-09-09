@@ -9,7 +9,12 @@ class Merchant < ApplicationRecord
   end
 
   def revenue
-    invoices.joins(:invoice_items).joins(:transactions).select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue').where('invoices.status = ?', 'shipped').where('transactions.result = ?', 'success').sum('invoice_items.quantity * invoice_items.unit_price')
+    invoices.joins(:invoice_items)
+    .joins(:transactions)
+    .select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+    .where('invoices.status = ?', 'shipped')
+    .where('transactions.result = ?', 'success')
+    .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
   def self.merchants_with_most_revenue(quantity)
