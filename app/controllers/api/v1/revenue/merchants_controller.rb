@@ -4,7 +4,7 @@ class Api::V1::Revenue::MerchantsController < ApplicationController
 
   def index
     if missing_quantity? || quantity_is_a_string?
-      json_response(MerchantNameRevenueSerializer.merchants_top_revenue_error, :bad_request)
+      json_response(ErrorMessage.merchants_top_revenue_error, :bad_request)
     elsif quantity_greater_than_merchant_count?
       merchants = Merchant.merchants_with_most_revenue(MERCHANT_COUNT)
       json_response(MerchantNameRevenueSerializer.new(merchants))

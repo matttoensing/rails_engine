@@ -21,7 +21,7 @@ class Api::V1::ItemsController < ApplicationController
     if item.save
       json_response(ItemSerializer.new(item))
     else
-      json_response(ItemSerializer.missing_attributes_error, :not_found)
+      json_response(ErrorMessage.missing_attributes_error, :not_found)
     end
   end
 
