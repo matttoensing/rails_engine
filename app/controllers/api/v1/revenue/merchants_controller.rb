@@ -3,22 +3,20 @@ class Api::V1::Revenue::MerchantsController < ApplicationController
   MERCHANT_COUNT = Merchant.count
 
   def index
-    if missing_quantity?
-      json_response(MerchantNameRevenueSerializer.merchants_top_revenue_error, :bad_request)
-    elsif quanity_is_a_string?
+    if missing_quantity? || quantity_is_a_string?
       json_response(MerchantNameRevenueSerializer.merchants_top_revenue_error, :bad_request)
     elsif quantity_greater_than_merchant_count?
       merchants = Merchant.merchants_with_most_revenue(MERCHANT_COUNT)
       json_response(MerchantNameRevenueSerializer.new(merchants))
     else
-      merchants = Merchant.merchants_with_most_revenue(params[:quantity])
+      merchants = Merchant.merchants_with_most_revenue(params[:quantity].to_i)
       json_response(MerchantNameRevenueSerializer.new(merchants))
     end
   end
 
   def show
     merchant = Merchant.find(params[:id])
-    json_response(MerchantNameRevenueSerializer.new(merchant))
+    json_response(MerchantRevenueSerializer.new(merchant))
   end
 
   private
@@ -27,8 +25,8 @@ class Api::V1::Revenue::MerchantsController < ApplicationController
     !params[:quantity].present?
   end
 
-  def quanity_is_a_string?
-    params[:quantity].present? && params[:quantity].to_i == 0
+  def quantity_is_a_string?
+    params[:quantity].to_i == 0
   end
 
   def quantity_greater_than_merchant_count?
