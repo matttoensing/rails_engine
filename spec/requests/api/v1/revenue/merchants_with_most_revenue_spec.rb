@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'merchants with most revenue api' do
   before(:each) do
+    Transaction.delete_all
+    InvoiceItem.delete_all
+    Invoice.delete_all
+    Item.delete_all
+    Merchant.delete_all
+    Customer.delete_all
+
     @merchant = create(:merchant)
     @item1 = create(:item, unit_price: 99.99, merchant: @merchant)
     @item2 = create(:item, unit_price: 19.99, merchant: @merchant)
