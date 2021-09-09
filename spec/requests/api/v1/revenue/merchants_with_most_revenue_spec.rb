@@ -66,7 +66,7 @@ require 'rails_helper'
 
      requested_merchants = JSON.parse(response.body, symbolize_names: true)
 
-     expect(requested_merchants[:data].length).to eq(2)
+     expect(requested_merchants[:data].count).to eq(2)
 
      merchants = requested_merchants[:data]
 
