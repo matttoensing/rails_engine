@@ -1,6 +1,5 @@
 class Api::V1::Items::SearchController < ApplicationController
-
-  MAX_MIN_PRICE = 10000
+  MAX_MIN_PRICE = 10_000
 
   def index
     if search_by_name_only?
@@ -10,31 +9,29 @@ class Api::V1::Items::SearchController < ApplicationController
       item = Item.search_results(params[:name])
       json_response(ItemSerializer.new(item))
 
-    else
+    elsif searching_for_name_and_price_range?
 
-      if searching_for_name_and_price_range?
-        json_response(ErrorMessage.item_min_price_search_error, :bad_request)
+      json_response(ErrorMessage.item_min_price_search_error, :bad_request)
 
-      elsif min_price_out_of_bounds?
-        json_response(ErrorMessage.item_min_price_too_big)
+    elsif min_price_out_of_bounds?
+      json_response(ErrorMessage.item_min_price_too_big)
 
-      elsif valid_min_and_max_price?
-        item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
+    elsif valid_min_and_max_price?
+      item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
 
-        json_response(ItemSerializer.new(item))
+      json_response(ItemSerializer.new(item))
 
-      elsif missing_max_price?
-        return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:min_price].to_i <= 0
+    elsif missing_max_price?
+      return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:min_price].to_i <= 0
 
-        item = Item.find_by_min_price(params[:min_price].to_i)
-        json_response(ItemSerializer.new(item))
+      item = Item.find_by_min_price(params[:min_price].to_i)
+      json_response(ItemSerializer.new(item))
 
-      elsif missing_min_price?
-        return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:max_price].to_i <= 0
+    elsif missing_min_price?
+      return json_response(ErrorMessage.item_min_price_search_error, :bad_request) if params[:max_price].to_i <= 0
 
-        item = Item.find_by_max_price(params[:max_price].to_i)
-        json_response(ItemSerializer.new(item))
-      end
+      item = Item.find_by_max_price(params[:max_price].to_i)
+      json_response(ItemSerializer.new(item))
     end
   end
 

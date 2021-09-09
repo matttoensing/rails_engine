@@ -4,7 +4,7 @@ RSpec.describe 'merchants api' do
   it 'sends a list of merchants(happy path, fetching page 1 is the same list of first 20 in db)' do
     create_list(:merchant, 40)
 
-    get '/api/v1/merchants', params: {page: 1}
+    get '/api/v1/merchants', params: { page: 1 }
 
     expect(response).to be_successful
 
@@ -24,7 +24,7 @@ RSpec.describe 'merchants api' do
   it 'sends a list of merchants from the first page if params page is less than or equal to zero(sad path, fetching page 1 if page is 0 or lower)' do
     create_list(:merchant, 40)
 
-    get '/api/v1/merchants', params: {page: 0}
+    get '/api/v1/merchants', params: { page: 0 }
 
     expect(response).to be_successful
 
@@ -44,7 +44,7 @@ RSpec.describe 'merchants api' do
   it 'happy path, fetch second page of 20 merchants' do
     create_list(:merchant, 40)
 
-    get '/api/v1/merchants', params: {page: 2}
+    get '/api/v1/merchants', params: { page: 2 }
 
     expect(response).to be_successful
 
@@ -66,7 +66,7 @@ RSpec.describe 'merchants api' do
   it 'sends a list of merchants from per page params(happy path, fetch first page of 50 merchants)' do
     create_list(:merchant, 100)
 
-    get '/api/v1/merchants', params: {per_page: 50}
+    get '/api/v1/merchants', params: { per_page: 50 }
 
     expect(response).to be_successful
 
@@ -86,7 +86,7 @@ RSpec.describe 'merchants api' do
   it 'happy path, fetch a page of merchants which would contain no data' do
     create_list(:merchant, 100)
 
-    get '/api/v1/merchants', params: {page: 200}
+    get '/api/v1/merchants', params: { page: 200 }
 
     expect(response).to be_successful
 
@@ -99,7 +99,7 @@ RSpec.describe 'merchants api' do
   it 'happy path, fetch all merchants if per page is really big' do
     create_list(:merchant, 100)
 
-    get '/api/v1/merchants', params: {per_page: 20000}
+    get '/api/v1/merchants', params: { per_page: 20_000 }
 
     expect(response).to be_successful
 
@@ -122,8 +122,7 @@ RSpec.describe 'merchants api' do
   end
 
   it 'sends an error response for a bad merchant id(sad path, bad integer id returns 404)' do
-
-    get "/api/v1/merchants/282828282828282"
+    get '/api/v1/merchants/282828282828282'
 
     expect(response).not_to be_successful
     expect(response.status).to eq(404)

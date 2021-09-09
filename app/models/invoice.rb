@@ -7,13 +7,13 @@ class Invoice < ApplicationRecord
 
   def self.weekly_revenue
     joins(:invoice_items)
-    .joins(:transactions)
-    .select("DATE_TRUNC('week', invoices.created_at) AS week")
-    .order(Arel.sql("DATE_TRUNC('week', invoices.created_at)"))
-    .group("DATE_TRUNC('week', invoices.created_at)")
-    .where('transactions.result = ?', 'success')
-    .where('invoices.status = ?', 'shipped')
-    .sum('invoice_items.quantity * invoice_items.unit_price')
+      .joins(:transactions)
+      .select("DATE_TRUNC('week', invoices.created_at) AS week")
+      .order(Arel.sql("DATE_TRUNC('week', invoices.created_at)"))
+      .group("DATE_TRUNC('week', invoices.created_at)")
+      .where('transactions.result = ?', 'success')
+      .where('invoices.status = ?', 'shipped')
+      .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
   def self.unshipped_revenue
