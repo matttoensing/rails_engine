@@ -1,6 +1,4 @@
 class WeeklyRevenueSerializer
-  # include FastJsonapi::ObjectSerializer
-
   def self.format_json(weekly_revenue)
     {data: weekly_revenue(weekly_revenue).flatten}
   end

@@ -6,7 +6,7 @@ class Api::V1::Revenue::UnshippedController < ApplicationController
       json_response(UnshippedRevenueSerializer.unshipped_invoices_error, 400)
     else
       invoices = Invoice.unshipped_revenue
-      json_response(UnshippedRevenueSerializer.format_unshipped_invoices(invoices))
+      json_response(UnshippedRevenueSerializer.new(invoices))
     end
   end
 end
