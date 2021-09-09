@@ -50,4 +50,11 @@ class ErrorMessage
       "error": 'params must be present'
     }
   end
+
+  def self.min_price_greater_than_max_price
+    {
+      "message": 'request could not be complete',
+      "error": 'min price cannot be greater than max price'
+    }
+  end
 end

@@ -13,15 +13,16 @@ class Api::V1::Items::SearchController < ApplicationController
       json_response(ItemSerializer.new(item))
 
     elsif searching_for_name_and_price_range?
-      
+
       json_response(ErrorMessage.item_min_price_search_error, :bad_request)
 
     elsif min_price_out_of_bounds?
       json_response(ErrorMessage.item_min_price_too_big)
 
     elsif valid_min_and_max_price?
-      item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
+      return json_response(ErrorMessage.min_price_greater_than_max_price, :bad_request) if min_price_greater_than_max_price?
 
+      item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
       json_response(ItemSerializer.new(item))
 
     elsif missing_max_price?
@@ -70,5 +71,9 @@ class Api::V1::Items::SearchController < ApplicationController
 
   def no_params_given?
     !params[:name].present? && !params[:min_price].present? && !params[:max_price].present?
+  end
+
+  def min_price_greater_than_max_price?
+    params[:min_price].to_i > params[:max_price].to_i
   end
 end
