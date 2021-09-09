@@ -97,7 +97,7 @@ RSpec.describe Item do
 
           item1.destroy_invoices
 
-          expect{Invoice.find(invoice1.id)}.to_not raise_error(ActiveRecord::RecordNotFound)
+          expect(Invoice.find(invoice1.id)).to eq(invoice1)
         end
       end
     end
