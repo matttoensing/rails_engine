@@ -96,12 +96,16 @@ require 'rails_helper'
          invoice_item7 = create(:invoice_item, unit_price: 29.99, quantity: 2, item: item5, invoice: invoice7)
          invoice_item8 = create(:invoice_item, unit_price: 39.99, quantity: 4, item: item6, invoice: invoice8)
 
-         expected = {12 => 79.96,
-           13 => 199.96,
-           16 => 159.96,
-           9 => 399.96}
+         expected = [invoice1, invoice4, invoice5, invoice8]
 
          expect(Invoice.unshipped_revenue).to eq(expected)
+
+         expected2 = Invoice.unshipped_revenue
+
+         expect(expected2[0].revenue).to eq(399.96)
+         expect(expected2[1].revenue).to eq(79.96)
+         expect(expected2[2].revenue).to eq(199.96)
+         expect(expected2[3].revenue).to eq(159.96)
        end
      end
    end
