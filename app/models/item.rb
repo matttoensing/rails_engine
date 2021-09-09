@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   before_destroy :destroy_invoices
 
   belongs_to :merchant
-  has_many :invoice_items, dependent: :delete_all
+  has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items, dependent: :destroy
 
   validates :name, presence: true
