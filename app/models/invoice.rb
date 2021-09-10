@@ -24,11 +24,11 @@ class Invoice < ApplicationRecord
 
   def self.revenue_between_dates(start_date, end_date)
     joins(:transactions)
-    .joins(:invoice_items)
-    .select('SUM(invoice_items.quantity * invoice_items.unit_price)')
-    .where("invoices.created_at BETWEEN '#{start_date}' AND '#{(end_date.to_date + 1.day).to_s}'")
-    .merge(Transaction.successful_transactions)
-    .merge(Invoice.shipped_invoices)
-    .sum('invoice_items.quantity * invoice_items.unit_price')
+      .joins(:invoice_items)
+      .select('SUM(invoice_items.quantity * invoice_items.unit_price)')
+      .where("invoices.created_at BETWEEN '#{start_date}' AND '#{end_date.to_date + 1.day}'")
+      .merge(Transaction.successful_transactions)
+      .merge(Invoice.shipped_invoices)
+      .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 end

@@ -128,7 +128,7 @@ RSpec.describe 'find item by min price api' do
       item1 = create(:item, unit_price: 99.99, merchant: merchant)
       item2 = create(:item, unit_price: 50.03, merchant: merchant)
 
-      get '/api/v1/items/find', params: { name: ''}
+      get '/api/v1/items/find', params: { name: '' }
 
       expect(response).to_not be_successful
       expect(response.status).to eq(400)
@@ -160,7 +160,7 @@ RSpec.describe 'find item by min price api' do
       item1 = create(:item, unit_price: 99.99, merchant: merchant)
       item2 = create(:item, unit_price: 50.03, merchant: merchant)
 
-      get '/api/v1/items/find', params: {min_price: 100, max_price: 50}
+      get '/api/v1/items/find', params: { min_price: 100, max_price: 50 }
 
       expect(response).to_not be_successful
       expect(response.status).to eq(400)

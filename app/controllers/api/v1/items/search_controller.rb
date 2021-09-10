@@ -20,7 +20,10 @@ class Api::V1::Items::SearchController < ApplicationController
       json_response(ErrorMessage.item_min_price_too_big)
 
     elsif valid_min_and_max_price?
-      return json_response(ErrorMessage.min_price_greater_than_max_price, :bad_request) if min_price_greater_than_max_price?
+      if min_price_greater_than_max_price?
+        return json_response(ErrorMessage.min_price_greater_than_max_price,
+                             :bad_request)
+      end
 
       item = Item.find_by_min_max_price(params[:min_price].to_i, params[:max_price].to_i)
       json_response(ItemSerializer.new(item))

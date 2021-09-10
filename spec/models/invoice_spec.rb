@@ -182,10 +182,10 @@ RSpec.describe Invoice do
         invoice_item8 = create(:invoice_item, unit_price: 39.99, quantity: 4, item: item6, invoice: invoice8,
                                               created_at: DateTime.new(2020, 3, 10))
 
-        start_date1 = "1970-02-01"
-        end_date1 = "2100-01-01"
-        start_date2 = "2020-02-01"
-        end_date2 = "2020-02-14"
+        start_date1 = '1970-02-01'
+        end_date1 = '2100-01-01'
+        start_date2 = '2020-02-01'
+        end_date2 = '2020-02-14'
 
         expect(Invoice.revenue_between_dates(start_date1, end_date1)).to eq(1099.76)
         expect(Invoice.revenue_between_dates(start_date2, end_date2)).to eq(699.88)
