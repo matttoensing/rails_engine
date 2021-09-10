@@ -1,7 +1,7 @@
 
 <p align="center">
 [![LinkedIn][linkedin-shield]][linkedin-url]
-</a>
+</p>
 
 
 <!-- PROJECT LOGO -->
