@@ -1,14 +1,13 @@
 
-<p align="center">
 [![LinkedIn][linkedin-shield]][linkedin-url]
-</p>
+
 
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="https://user-images.githubusercontent.com/80132364/132785202-8e89bd48-5a12-4be2-bebb-376ef4a3e1a7.png" alt="Logo" width="80" height="80">
+    <img src="https://user-images.githubusercontent.com/80132364/132785374-6483e60c-7a65-4101-b611-3546ef1a2f84.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Rails Engine</h3>
