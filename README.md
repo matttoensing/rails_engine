@@ -25,6 +25,10 @@
     </li>
     <li>
       <a href="#endpoints">Endpoints</a>
+          <ul>
+        <li><a href="#merchant">Merchants</a></li>
+        <li><a href="#items">Items</a></li>
+      </ul>
     </li>
   </ol>
 </details>
@@ -58,7 +62,7 @@
 <!-- GETTING STARTED -->
 ## Endpoints
 
-Merchant Endpoints
+### Merchants
 - For finding all Merchants
 ```
 GET /api/v1/merchants
@@ -69,7 +73,7 @@ GET /api/v1/merchants
 GET /api/v1/merchants/:merchant_id
 ```
 
-Items Endpoints 
+### Items
 - For finding all Items
 ```
 GET /api/v1/items
