@@ -57,4 +57,11 @@ class ErrorMessage
       "error": 'min price cannot be greater than max price'
     }
   end
+
+  def self.between_dates_error
+    {
+      "message": 'request could not be complete',
+      "error": 'dates entered incorrectly'
+    }
+  end
 end

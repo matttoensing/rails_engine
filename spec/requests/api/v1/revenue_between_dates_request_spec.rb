@@ -57,7 +57,7 @@ require 'rails_helper'
                                            created_at: DateTime.new(2020, 3, 10))
    end
 
-   it 'happy path, fetch revenue between two dates' do
+   it 'happy path, all revenue if date range is really big' do
      get '/api/v1/revenue', params: {start: "1970-01-01", end: "2100-01-01"}
 
      expect(response).to be_successful
@@ -81,5 +81,71 @@ require 'rails_helper'
      expect(revenue[:data]).to have_key(:attributes)
      expect(revenue[:data][:attributes]).to have_key(:revenue)
      expect(revenue[:data][:attributes][:revenue]).to eq(699.88)
+   end
+
+   it 'edge case sad path, start date and end date are not provided' do
+     get '/api/v1/revenue'
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
+   end
+
+   it 'edge case sad path, start date is provided, but end date is not provided' do
+     get '/api/v1/revenue', params: {start: "2020-02-01"}
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
+   end
+
+   it 'edge case sad path, end date is provided, but start date is not provided' do
+     get '/api/v1/revenue', params: {end: "2020-02-01"}
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
+   end
+
+   it 'edge case sad path, start date and end date are both blank' do
+     get '/api/v1/revenue', params: {start: '', end: ''}
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
+   end
+
+   it 'edge case sad path, start date is set correctly, but end date is blank' do
+     get '/api/v1/revenue', params: {start: "2020-02-01", end: ''}
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
+   end
+
+   it 'edge case sad path, end date is set correctly, but start date is blank' do
+     get '/api/v1/revenue', params: {start: '', end: '2020-02-01'}
+
+     expect(response).to_not be_successful
+     expect(response.status).to eq(400)
+
+     revenue = JSON.parse(response.body, symbolize_names: true)
+
+     expect(revenue).to have_key(:error)
    end
  end
