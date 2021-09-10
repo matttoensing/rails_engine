@@ -134,7 +134,30 @@ GET /api/v1/items/find?max_price=MAX_PRICE&min_price=MIN_PRICE
 ```
 
 ### Revenue Endpoints
+- Get revenue for Merchants by quantity
+```
+GET /api/v1/revenue/merchants?quantity=QUANTITY
+```
 
+- Get total revenue between a start date and an end date
+```
+GET /api/v1/revenue?start={{start_date}}&end={{end_date}}
+```
+
+- Get total revenue of a single merchant
+```
+GET /api/v1/revenue/merchants/:merchant_id
+```
+
+- Get all revenue of unshipped invoices
+```
+GET /api/v1/revenue/unshipped
+```
+
+- Get a revenue repoer sorted by week 
+```
+GET /api/v1/revenue/weekly
+```
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
