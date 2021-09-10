@@ -121,4 +121,54 @@ RSpec.describe 'find item by min price api' do
 
     expect(items).to have_key(:data)
   end
+
+  describe 'extensions' do
+    it 'edge case, no name given' do
+      merchant = create(:merchant)
+      item1 = create(:item, unit_price: 99.99, merchant: merchant)
+      item2 = create(:item, unit_price: 50.03, merchant: merchant)
+
+      get '/api/v1/items/find', params: { name: '' }
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(400)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+      expect(error).to have_key(:error)
+    end
+
+    it 'no param given' do
+      merchant = create(:merchant)
+      item1 = create(:item, unit_price: 99.99, merchant: merchant)
+      item2 = create(:item, unit_price: 50.03, merchant: merchant)
+
+      get '/api/v1/items/find'
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(400)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+      expect(error).to have_key(:error)
+    end
+
+    it 'edge case, min_price cannot be more than max_price' do
+      merchant = create(:merchant)
+      item1 = create(:item, unit_price: 99.99, merchant: merchant)
+      item2 = create(:item, unit_price: 50.03, merchant: merchant)
+
+      get '/api/v1/items/find', params: { min_price: 100, max_price: 50 }
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(400)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+      expect(error).to have_key(:error)
+    end
+  end
 end

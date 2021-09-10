@@ -1,12 +1,12 @@
 class Api::V1::ItemsController < ApplicationController
   def index
     if per_page_present_only?
-      items = Item.paginate(page: nil, per_page: params[:per_page])
-      json_response(ItemSerializer.new(items))
-    elsif page_less_than_zero?
-      items = Item.paginate(page: 1, per_page: 20)
+      items = Item.limit(params[:per_page].to_i)
       json_response(ItemSerializer.new(items))
     else
+
+      return json_response(ItemSerializer.new(Item.paginate(page: 1, per_page: 20))) if page_less_than_zero?
+
       items = Item.paginate(page: params[:page], per_page: 20)
       json_response(ItemSerializer.new(items))
     end

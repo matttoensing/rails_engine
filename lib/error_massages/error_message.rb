@@ -43,4 +43,25 @@ class ErrorMessage
       ]
     } }
   end
+
+  def self.wrong_item_params_error
+    {
+      "message": 'request could not be complete',
+      "error": 'params must be present'
+    }
+  end
+
+  def self.min_price_greater_than_max_price
+    {
+      "message": 'request could not be complete',
+      "error": 'min price cannot be greater than max price'
+    }
+  end
+
+  def self.between_dates_error
+    {
+      "message": 'request could not be complete',
+      "error": 'dates entered incorrectly'
+    }
+  end
 end
