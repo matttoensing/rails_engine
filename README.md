@@ -26,7 +26,7 @@
     <li>
       <a href="#endpoints">Endpoints</a>
           <ul>
-        <li><a href="#merchant">Merchants</a></li>
+        <li><a href="#merchants">Merchants</a></li>
         <li><a href="#items">Items</a></li>
       </ul>
     </li>
