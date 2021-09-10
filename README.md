@@ -10,23 +10,7 @@
     <img src="https://user-images.githubusercontent.com/80132364/132785001-321268b5-14d2-421e-b8f2-f60ca033bff8.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">project_title</h3>
-
-  <p align="center">
-    project_description
-    <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
-  </p>
-</p>
-
-
+  <h3 align="center">Rails Engine</h3>
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
