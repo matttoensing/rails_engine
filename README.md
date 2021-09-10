@@ -28,7 +28,9 @@
           <ul>
         <li><a href="#merchants">Merchants</a></li>
         <li><a href="#items">Items</a></li>
-            <li><a href="#merchant-items">Merchant Items</a></li>
+        <li><a href="#merchant-items">Merchant Items</a></li>
+        <li><a href="#search-items">Search Merchants</a></li>
+        <li><a href="#revenue-endpoints">Revenue Endpoints</a></li>
       </ul>
     </li>
   </ol>
@@ -105,6 +107,33 @@ DELETE /api/v1/items/:item_id
 ```
 GET /api/v1/merchants/:merchant_id/items
 ```
+
+### Search Merchants
+- By merchant name(will return a list of merchants with a similar name if merchants exists with a similar name exist in the DB, note name query params must be present to complete request)
+```
+GET /api/v1/merchants/find_all?name=NAME
+```
+
+### Search Items
+- By Item Name(will return one item by partial name search, note name query params must be present to complete request)
+```
+GET /api/v1/items/find?name=NAME
+```
+
+- By minimum price or maximum price
+```
+GET /api/v1/items/find?min_price=MIN_PRICE
+```
+
+```
+GET /api/v1/items/find?max_price=MAX_PRICE
+```
+
+```
+GET /api/v1/items/find?max_price=MAX_PRICE&min_price=MIN_PRICE
+```
+
+### Revenue Endpoints
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
