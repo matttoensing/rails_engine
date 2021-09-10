@@ -28,6 +28,7 @@
           <ul>
         <li><a href="#merchants">Merchants</a></li>
         <li><a href="#items">Items</a></li>
+            <li><a href="#merchant-items">Merchant Items</a></li>
       </ul>
     </li>
   </ol>
@@ -97,6 +98,12 @@ PATCH /api/v1/items/:item_id
 - For deleing an Item(note that invoice items for the item will be deleted, and invoices and transactions will be deleted if the item being deleted is the only item on the invoice)
 ```
 DELETE /api/v1/items/:item_id
+```
+
+### Merchant Items
+- Merchant Items
+```
+GET /api/v1/merchants/:merchant_id/items
 ```
 
 <!-- MARKDOWN LINKS & IMAGES -->
