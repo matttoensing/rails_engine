@@ -1,6 +1,6 @@
-
+<div align="center">
 [![LinkedIn][linkedin-shield]][linkedin-url]
-
+</div>
 
 
 <!-- PROJECT LOGO -->
