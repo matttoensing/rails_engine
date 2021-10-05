@@ -96,31 +96,163 @@ rails db:create
 rails db:migrate
 ```
 
-Seed the DB 
+Seed the DB using the pg dump file located in the db directory
 ```
-
+rails db:seed
 ```
 
 ## Endpoints
 
+HTTP Verb | Endpoint              | Description                              | Link
+----------|-----------------------|------------------------------------------|---------------------------
+GET       | `/api/v1/merchants` | Get all Merchants | [Link](#get-merchants)
+GET       | `/api/v1/merchants/:id`       | Find a single Merchant | [Link](#get-a-single-merchant)
+GET       | `/api/v1/items` | Get all Items | [Link](#get-all-items)
+POST      | `/api/v1/sessions` | Login a User | [Link](#create-a-new-session)
+POST      | `/api/v1/roadtrip` | Request Road Trip information | [Link](#roadtrip)
 
+---
 
-### Merchants
-- For finding all Merchants
+### Get Merchants
+Returns a response of all Merchants. 
+
 ```
 GET /api/v1/merchants
 ```
 
-- For finding a single Merchant
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`page`  | Integer | Path | Optional | See notes below
+`per_page`     | Integer | Path | Optional | See notes below
+
+Notes: 
+The response will default to the first page if `page` is not included in the parameters. Per page will default to 20 merchants in the response, and if `per_page` is included, will return the included value of `per_page` number of merchants. 
+
+### Example Response
+
 ```
-GET /api/v1/merchants/:merchant_id
+Status: 200 OK
 ```
 
-### Items
-- For finding all Items
+```
+{
+    "data": [
+        {
+            "id": "1",
+            "type": "merchant",
+            "attributes": {
+                "name": "Schroeder-Jerde"
+            }
+        },
+        {
+            "id": "2",
+            "type": "merchant",
+            "attributes": {
+                "name": "Klein, Rempel and Jones"
+            }
+        },
+        {
+            "id": "3",
+            "type": "merchant",
+            "attributes": {
+                "name": "Willms and Sons"
+            }
+        },
+        { ... }
+    ]
+}      
+```
+
+---
+
+
+### Get a Single Merchant
+Returns a response of all Merchants. 
+
+```
+GET /api/v1/merchants/:id
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`id`  | Integer | Path | Required | Merchant ID
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": "1",
+        "type": "merchant",
+        "attributes": {
+            "name": "Schroeder-Jerde"
+        }
+    }
+}     
+```
+
+---
+
+### Get all Items
+Returns a response of all items. 
 ```
 GET /api/v1/items
 ```
+
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`page`  | Integer | Path | Optional | See notes below
+`per_page`     | Integer | Path | Optional | See notes below
+
+Notes: 
+The response will default to the first page if `page` is not included in the parameters. Per page will default to 20 merchants in the response, and if `per_page` is included, will return the included value of `per_page` number of merchants. 
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": [
+        {
+            "id": "4",
+            "type": "item",
+            "attributes": {
+                "name": "Item Nemo Facere",
+                "description": "Sunt eum id eius magni consequuntur delectus veritatis. Quisquam laborum illo ut ab. Ducimus in est id voluptas autem.",
+                "unit_price": 42.91,
+                "merchant_id": 1
+            }
+        },
+        {
+            "id": "5",
+            "type": "item",
+            "attributes": {
+                "name": "Item Expedita Aliquam",
+                "description": "Voluptate aut labore qui illum tempore eius. Corrupti cum et rerum. Enim illum labore voluptatem dicta consequatur. Consequatur sunt consequuntur ut officiis.",
+                "unit_price": 687.23,
+                "merchant_id": 1
+            }
+        },
+        { ... }
+    ]
+}      
+```
+
+---
 
 - For finding a single item
 ```
