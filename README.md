@@ -70,10 +70,40 @@ This is a API application built in Ruby on Rails. The intended client for this a
 
 * Ruby 2.7.2
 * Ruby on Rails 5.2.6
-* API keys from Unsplash, Mapquest, and OpenWeather. Instructions on obtaining and using API keys locally with this application can be found below. 
 * <a href="https://www.postgresql.org/download/">Postgresql</a>
 
+### Installation
+Clone down this repo
+
+```
+git clone git@github.com:matttoensing/rails_engine.git
+```
+
+Move into Rails Engine directory
+```
+cd rails_engine
+```
+
+Install any missing gems
+
+```
+bundle install
+```
+
+Setup your local database with Postgresql
+```
+rails db:create
+rails db:migrate
+```
+
+Seed the DB 
+```
+
+```
+
 ## Endpoints
+
+
 
 ### Merchants
 - For finding all Merchants
