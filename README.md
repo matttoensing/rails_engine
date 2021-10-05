@@ -14,8 +14,7 @@
   <h3 align="center">Rails Engine</h3>
 
 <!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+  <details open="open"><summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -24,15 +23,16 @@
       </ul>
     </li>
     <li>
-      <a href="#endpoints">Endpoints</a>
-          <ul>
-        <li><a href="#merchants">Merchants</a></li>
-        <li><a href="#items">Items</a></li>
-        <li><a href="#merchant-items">Merchant Items</a></li>
-        <li><a href="#search-items">Search Merchants</a></li>
-        <li><a href="#revenue-endpoints">Revenue Endpoints</a></li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#endpoints">Endpoints</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -43,7 +43,7 @@
 
 <img width="1096" alt="Screen Shot 2021-09-03 at 2 01 23 PM" src="https://user-images.githubusercontent.com/80132364/132785754-258e2580-71ec-4de4-8aeb-005fc6c89b3b.png">
 
-- This is a API application built in Rails. Data is exposed through different various endpoints using RESTful architecture. 
+This is a API application built in Ruby on Rails. The intended client for this application is a front end development team. Data is exposed through various endpoints using RESTful architecture. In addition to custom JSON responses, some resources include CRUD endpoints. 
 
 
 ### Built With
@@ -54,15 +54,25 @@
 
 #### Gems Used for Development
 
-* RSpec
-* Capybara
-* will paginate
-* Factory Bot
-* Faker
-* pry
-* fast_jsonapi
+* <a href="https://github.com/rspec/rspec-rails">RSpec</a>
+* <a href="https://github.com/teamcapybara/capybara">Capybara</a>
+* <a href="https://github.com/mislav/will_paginate">will paginate</a>
+* <a href="https://github.com/thoughtbot/factory_bot_rails">factory bot rails</a>
+* <a href="https://github.com/faker-ruby/faker">faker</a>
+* <a href="https://github.com/pry/pry">pry</a>
+* <a href="https://github.com/Netflix/fast_jsonapi">fast json api</a>
+
 
 <!-- GETTING STARTED -->
+## Getting Started
+
+### Prerequisites
+
+* Ruby 2.7.2
+* Ruby on Rails 5.2.6
+* API keys from Unsplash, Mapquest, and OpenWeather. Instructions on obtaining and using API keys locally with this application can be found below. 
+* <a href="https://www.postgresql.org/download/">Postgresql</a>
+
 ## Endpoints
 
 ### Merchants
