@@ -100,16 +100,20 @@ Seed the DB using the pg dump file located in the db directory
 ```
 rails db:seed
 ```
+## Usage
+stuff
 
 ## Endpoints
 
 HTTP Verb | Endpoint              | Description                              | Link
 ----------|-----------------------|------------------------------------------|---------------------------
 GET       | `/api/v1/merchants` | Get all Merchants | [Link](#get-merchants)
-GET       | `/api/v1/merchants/:id`       | Find a single Merchant | [Link](#get-a-single-merchant)
+GET       | `/api/v1/merchants/:id`       | Get a single Merchant | [Link](#get-a-single-merchant)
 GET       | `/api/v1/items` | Get all Items | [Link](#get-all-items)
-POST      | `/api/v1/sessions` | Login a User | [Link](#create-a-new-session)
-POST      | `/api/v1/roadtrip` | Request Road Trip information | [Link](#roadtrip)
+GET       | `/api/v1/items/:id` | Get a single Item | [Link](#get-a-single-item)
+POST      | `/api/v1/items` | Create a new Item | [Link](#create-a-new-item)
+PATCH     | `/api/v1/items/:id` | Update an existing Item | [Link](#update-an-item)
+DELETE    | `/api/v1/items/:id` | Deletes an existing Item | [Link](#delete-an-item)
 
 ---
 
@@ -254,26 +258,160 @@ Status: 200 OK
 
 ---
 
-- For finding a single item
+### Get a Single Item
+Returns a single item in a response. 
+
 ```
-GET /api/v1/items/:item_id
+GET /api/v1/item/:id
 ```
 
-- For creating an Item(note that merchant ID is required to make a post request to create an item as items belong to merchants)
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`id`  | Integer | Path | Required | Item ID
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": "4",
+        "type": "item",
+        "attributes": {
+            "name": "Item Nemo Facere",
+            "description": "Sunt eum id eius magni consequuntur delectus veritatis. Quisquam laborum illo ut ab. Ducimus in est id voluptas autem.",
+            "unit_price": 42.91,
+            "merchant_id": 1
+        }
+    }
+}     
+```
+
+---
+
+### Create a new Item
+Creates a new item and returns the newly created item in the response. 
+
 ```
 POST /api/v1/items
 ```
 
-- For updating an Item
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`name`  | String | Path | Required | Item Name
+`description`  | String | Path | Required | Item Description
+`unit_price`  | Float | Path | Required | Item Unit Price
+`merchant_id`  | Integer | Path | Required | Merchant ID the Item belongs to
+
+### Example Response
+
 ```
-PATCH /api/v1/items/:item_id
+Status: 200 OK
 ```
+
+```
+{
+  "data": {
+    "id": "16",
+    "type": "item",
+    "attributes": {
+      "name": "Widget",
+      "description": "High quality widget",
+      "unit_price": 100.99,
+      "merchant_id": 14
+    }
+  }
+}   
+```
+
+---
+
+### Update an Item
+Updates attributes of an existing item.
+
+```
+PATCH /api/v1/items/:id
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`name`  | String | Path | Optional | Item Name
+`description`  | String | Path | Optional | Item Description
+`unit_price`  | Float | Path | Optional | Item Unit Price
+`merchant_id`  | Integer | Path | Optional | Merchant ID the Item belongs to
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+  "data": {
+    "id": "16",
+    "type": "item",
+    "attributes": {
+      "name": "Widget",
+      "description": "Newly updated high quality widget",
+      "unit_price": 99.99,
+      "merchant_id": 14
+    }
+  }
+}   
+```
+
+---
 
 - For deleing an Item(note that invoice items for the item will be deleted, and invoices and transactions will be deleted if the item being deleted is the only item on the invoice)
 ```
 DELETE /api/v1/items/:item_id
 ```
+### Delete an Item
+Deletes an item.
 
+```
+DELETE /api/v1/items/:id
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`name`  | String | Path | Optional | Item Name
+`description`  | String | Path | Optional | Item Description
+`unit_price`  | Float | Path | Optional | Item Unit Price
+`merchant_id`  | Integer | Path | Optional | Merchant ID the Item belongs to
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+  "data": {
+    "id": "16",
+    "type": "item",
+    "attributes": {
+      "name": "Widget",
+      "description": "Newly updated high quality widget",
+      "unit_price": 99.99,
+      "merchant_id": 14
+    }
+  }
+}   
+```
 ### Merchant Items
 - Merchant Items
 ```
