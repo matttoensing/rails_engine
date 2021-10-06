@@ -114,6 +114,7 @@ GET       | `/api/v1/items/:id` | Get a single Item | [Link](#get-a-single-item)
 POST      | `/api/v1/items` | Create a new Item | [Link](#create-a-new-item)
 PATCH     | `/api/v1/items/:id` | Update an existing Item | [Link](#update-an-item)
 DELETE    | `/api/v1/items/:id` | Deletes an existing Item | [Link](#delete-an-item)
+GET       | `/api/v1/items/:item_id/merchant` | Get an Item's Merchants Information| [Link](#get-items-merchants)
 GET       | `/api/v1/merchants/:merchant_id/items` | Get all of a Merchant's Items| [Link](#get-merchant-items)
 GET       | `/api/v1/merchants/find_all` | Search for Merchants| [Link](#search-merchants)
 GET       | `/api/v1/items/find` | Search for one Item| [Link](#search-items)
@@ -414,6 +415,40 @@ Status: 200 OK
     }
   }
 }   
+```
+
+---
+
+### Get Items Merchants
+Returns an iems merchant information in the response. 
+
+```
+GET /api/v1/items/:item_id/merchants
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`item_id`  | Integer | Path | Required | Item ID
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": "1",
+        "type": "merchant",
+        "attributes": {
+            "name": "Schroeder-Jerde"
+        }
+    }
+}    
 ```
 
 ---
