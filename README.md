@@ -114,6 +114,13 @@ GET       | `/api/v1/items/:id` | Get a single Item | [Link](#get-a-single-item)
 POST      | `/api/v1/items` | Create a new Item | [Link](#create-a-new-item)
 PATCH     | `/api/v1/items/:id` | Update an existing Item | [Link](#update-an-item)
 DELETE    | `/api/v1/items/:id` | Deletes an existing Item | [Link](#delete-an-item)
+GET       | `/api/v1/merchants/:merchant_id/items` | Get all of a Merchant's Items| [Link](#get-merchant-items)
+GET       | `/api/v1/merchants/find_all` | Search for Merchants| [Link](#search-merchants)
+GET       | `/api/v1/items/find` | Search for one Item| [Link](#search-items)
+GET       | `/api/v1/revenue/merchants` | Get Top Merchants by Revenue| [Link](#merchant-revenue)
+GET       | `/api/v1/revenue` | Return Revenue of all Merchants between two dates| [Link](#revenue-generated-between-given-dates)
+GET       | `/api/v1/revenue/merchants/:id` | Return Revenue for a Single Merchant| [Link](#get-revenue-for-a-single-merchant)
+GET       | `/api/v1/revenue/weekly` | Return Revenue for each week| [Link](#get-revenue-report-sorted-by-week)
 
 ---
 
@@ -313,7 +320,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 ### Example Response
 
 ```
-Status: 200 OK
+Status: 201 Created
 ```
 
 ```
@@ -344,6 +351,7 @@ PATCH /api/v1/items/:id
 
 Name        | Data Type | In    | Required/Optional    | Description
 ------------|---------|-------|----------------------|------------
+`id`  | String | Path | Required | Item ID
 `name`  | String | Path | Optional | Item Name
 `description`  | String | Path | Optional | Item Description
 `unit_price`  | Float | Path | Optional | Item Unit Price
@@ -372,12 +380,8 @@ Status: 200 OK
 
 ---
 
-- For deleing an Item(note that invoice items for the item will be deleted, and invoices and transactions will be deleted if the item being deleted is the only item on the invoice)
-```
-DELETE /api/v1/items/:item_id
-```
 ### Delete an Item
-Deletes an item.
+Deletes an existing item. Note that invoice items that belong to the item will be deleted as well. Invoices and transactions will be deleted if the item being deleted is the only item on the invoice. 
 
 ```
 DELETE /api/v1/items/:id
@@ -387,10 +391,8 @@ DELETE /api/v1/items/:id
 
 Name        | Data Type | In    | Required/Optional    | Description
 ------------|---------|-------|----------------------|------------
-`name`  | String | Path | Optional | Item Name
-`description`  | String | Path | Optional | Item Description
-`unit_price`  | Float | Path | Optional | Item Unit Price
-`merchant_id`  | Integer | Path | Optional | Merchant ID the Item belongs to
+`id`  | String | Path | Required | Item ID
+
 
 ### Example Response
 
@@ -412,62 +414,333 @@ Status: 200 OK
   }
 }   
 ```
-### Merchant Items
-- Merchant Items
+
+---
+
+### Get Merchant Items
+Returns a response of all items belonging to a single Merchant. 
 ```
 GET /api/v1/merchants/:merchant_id/items
 ```
 
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`merchant_id`  | String | Path | Required | Merchant ID
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": [
+        {
+            "id": "4",
+            "type": "item",
+            "attributes": {
+                "name": "Item Nemo Facere",
+                "description": "Sunt eum id eius magni consequuntur delectus veritatis. Quisquam laborum illo ut ab. Ducimus in est id voluptas autem.",
+                "unit_price": 42.91,
+                "merchant_id": 1
+            }
+        },
+        {
+            "id": "5",
+            "type": "item",
+            "attributes": {
+                "name": "Item Expedita Aliquam",
+                "description": "Voluptate aut labore qui illum tempore eius. Corrupti cum et rerum. Enim illum labore voluptatem dicta consequatur. Consequatur sunt consequuntur ut officiis.",
+                "unit_price": 687.23,
+                "merchant_id": 1
+            }
+        },
+        { ... }
+    ]
+}
+```
+
+---
+
 ### Search Merchants
-- By merchant name(will return a list of merchants with a similar name if merchants exists with a similar name exist in the DB, note name query params must be present to complete request)
+Return a list of merchants with a similar name, or an empty response if no merchants can be found with that search
+
 ```
-GET /api/v1/merchants/find_all?name=NAME
+GET /api/v1/merchants/find_all
 ```
+
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`name`  | String | Path | Required | Name of a Merchant
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": [
+        {
+            "id": "2",
+            "type": "merchant",
+            "attributes": {
+                "name": "Klein, Rempel and Jones"
+            }
+        },
+        {
+            "id": "45",
+            "type": "merchant",
+            "attributes": {
+                "name": "Dickinson-Klein"
+            }
+        }
+    ]
+}   
+```
+
+---
 
 ### Search Items
-- By Item Name(will return one item by partial name search, note name query params must be present to complete request)
+Returns one item by partial name search. 
 ```
-GET /api/v1/items/find?name=NAME
-```
-
-- By minimum price or maximum price
-```
-GET /api/v1/items/find?min_price=MIN_PRICE
+GET /api/v1/items/find
 ```
 
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`name`  | String | Path | Optional | Name of an Item
+`min_price`  | String | Path | Optional | Items that have unit prices above a given threshold
+`max_price`  | String | Path | Optional | Items that have unit prices below a given threshold
+
+
+### Example Response
+
 ```
-GET /api/v1/items/find?max_price=MAX_PRICE
+Status: 200 OK
 ```
 
 ```
-GET /api/v1/items/find?max_price=MAX_PRICE&min_price=MIN_PRICE
+{
+    "data": {
+        "id": "54",
+        "type": "item",
+        "attributes": {
+            "name": "Item Enim Error",
+            "description": "Odio inventore quis quia nesciunt. Libero id ipsam et. Perspiciatis porro vero quia aut aperiam. Quaerat rerum et sit earum ut tempore illum.",
+            "unit_price": 775.96,
+            "merchant_id": 3
+        }
+    }
+}
 ```
 
-### Revenue Endpoints
-- Get revenue for Merchants by quantity
+---
+
+### Merchant Revenue
+Returns a number of merchants as given by the quantity params in the response in order of highest grossing revenue in descending order. Response includes the total revenue generated for the merchant for all merchant invoices. 
+
 ```
-GET /api/v1/revenue/merchants?quantity=QUANTITY
+GET /api/v1/revenue/merchants
 ```
 
-- Get total revenue between a start date and an end date
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`quantity`  | String | Path | Required | Number of Merchants to be returned in response
+
+
+### Example Response
+
 ```
-GET /api/v1/revenue?start={{start_date}}&end={{end_date}}
+Status: 200 OK
 ```
 
-- Get total revenue of a single merchant
 ```
-GET /api/v1/revenue/merchants/:merchant_id
+{
+    "data": [
+        {
+            "id": "14",
+            "type": "merchant_name_revenue",
+            "attributes": {
+                "name": "Dicki-Bednar",
+                "revenue": 1148393.7399999984
+            }
+        },
+        {
+            "id": "89",
+            "type": "merchant_name_revenue",
+            "attributes": {
+                "name": "Kassulke, O'Hara and Quitzon",
+                "revenue": 1015275.1500000001
+            }
+        }
+    ]
+}
 ```
 
-- Get all revenue of unshipped invoices
+---
+
+### Revenue Generated Between Given Dates
+Get total revenue of all merchants between a start date and an end date. 
+
 ```
-GET /api/v1/revenue/unshipped
+GET /api/v1/revenue
 ```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`start`  | String | Path | Required | Starting Date
+`end`  | String | Path | Required | Ending Date
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": null,
+        "type": "revenue",
+        "attributes": {
+            "revenue": 3697159.7799999965
+        }
+    }
+}
+```
+
+---
+
+### Get Revenue for a Single Merchant
+Returns a response with the total revenue generated for a single merchant. 
+
+```
+GET /api/v1/revenue/merchants/:id
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`start`  | String | Path | Required | Starting Date
+`end`  | String | Path | Required | Ending Date
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": "1",
+        "type": "merchant_revenue",
+        "attributes": {
+            "revenue": 528774.6400000005
+        }
+    }
+}
+```
+
+---
+
+### Get Revenue for a Single Merchant
+Returns a response with the total revenue generated for a single merchant. 
+
+```
+GET /api/v1/revenue/merchants/:id
+```
+
+### Parameters
+
+Name        | Data Type | In    | Required/Optional    | Description
+------------|---------|-------|----------------------|------------
+`start`  | String | Path | Required | Starting Date
+`end`  | String | Path | Required | Ending Date
+
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": {
+        "id": "1",
+        "type": "merchant_revenue",
+        "attributes": {
+            "revenue": 528774.6400000005
+        }
+    }
+}
+```
+
+---
 
 - Get a revenue repoer sorted by week 
 ```
 GET /api/v1/revenue/weekly
 ```
+
+### Get Revenue Report Sorted by Week
+Returns a response with the total revenue for each week according to invoice created at values. 
+
+```
+GET /api/v1/revenue/weekly
+```
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": [
+        {
+            "id": null,
+            "type": "weekly_revenue",
+            "attributes": {
+                "week": "2012-03-05",
+                "revenue": 14981117.170000013
+            }
+        },
+        {
+            "id": null,
+            "type": "weekly_revenue",
+            "attributes": {
+                "week": "2012-03-12",
+                "revenue": 18778641.380000062
+            }
+        },
+        { ... }
+    ]
+}
+```
+
+---
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
