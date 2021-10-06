@@ -121,6 +121,7 @@ GET       | `/api/v1/revenue/merchants` | Get Top Merchants by Revenue| [Link](#
 GET       | `/api/v1/revenue` | Return Revenue of all Merchants between two dates| [Link](#revenue-generated-between-given-dates)
 GET       | `/api/v1/revenue/merchants/:id` | Return Revenue for a Single Merchant| [Link](#get-revenue-for-a-single-merchant)
 GET       | `/api/v1/revenue/weekly` | Return Revenue for each week| [Link](#get-revenue-report-sorted-by-week)
+GET       | `/api/v1/revenue/unshipped` | Return Potential Revenue of Unshipped Invoices| [Link](#get-revenue-for-unshipped-invoices)
 
 ---
 
@@ -171,7 +172,7 @@ Status: 200 OK
                 "name": "Willms and Sons"
             }
         },
-        { ... }
+        { ... },
     ]
 }      
 ```
@@ -258,7 +259,7 @@ Status: 200 OK
                 "merchant_id": 1
             }
         },
-        { ... }
+        { ... },
     ]
 }      
 ```
@@ -459,7 +460,7 @@ Status: 200 OK
                 "merchant_id": 1
             }
         },
-        { ... }
+        { ... },
     ]
 }
 ```
@@ -698,11 +699,6 @@ Status: 200 OK
 
 ---
 
-- Get a revenue repoer sorted by week 
-```
-GET /api/v1/revenue/weekly
-```
-
 ### Get Revenue Report Sorted by Week
 Returns a response with the total revenue for each week according to invoice created at values. 
 
@@ -735,12 +731,54 @@ Status: 200 OK
                 "revenue": 18778641.380000062
             }
         },
-        { ... }
+        { ... },
     ]
 }
 ```
 
 ---
+
+
+get-revenue-for-unshipped-invoices
+
+### Get Revenue for Unshipped Invoices
+Returns a response with the total revenue of invoices that have an unshipped status. 
+
+```
+GET /api/v1/revenue/unshipped
+```
+
+### Example Response
+
+```
+Status: 200 OK
+```
+
+```
+{
+    "data": [
+        {
+            "id": "4844",
+            "type": "unshipped_revenue",
+            "attributes": {
+                "potential_revenue": 1504.08
+            }
+        }
+    ]
+}
+```
+
+## Contact
+
+Matt Toensing - [LinkedIn ](https://linkedin.com/in/matt-toensing/) - [Email](mailto:matthew.toensing@gmail.com) - [GitHub](https://github.com/matttoensing) - [@instagram](https://www.instagram.com/matt_rtoensing/)
+
+Project Link: [https://github.com/matttoensing/rails_engine](https://github.com/matttoensing/rails_engine)
+
+
+## Acknowledgements
+* Turing School of Software and Design
+* All the great developers who have helped me along the way
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
