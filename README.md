@@ -101,7 +101,7 @@ Seed the DB using the pg dump file located in the db directory
 rails db:seed
 ```
 ## Usage
-stuff
+Run `rails s` to start the server locally. Once the server is running, use <a href="https://www.postman.com/">Postman</a> to access the different endpoints in this application. The endpoints, along with information on each one, are listed in the table below. 
 
 ## Endpoints
 
