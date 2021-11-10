@@ -60,7 +60,9 @@ This is a API application built in Ruby on Rails. The intended client for this a
 * <a href="https://github.com/thoughtbot/factory_bot_rails">factory bot rails</a>
 * <a href="https://github.com/faker-ruby/faker">faker</a>
 * <a href="https://github.com/pry/pry">pry</a>
-* <a href="https://github.com/Netflix/fast_jsonapi">fast json api</a>
+* <a href="https://github.com/lostisland/faraday">Faraday</a>
+* <a href="https://github.com/bblimke/webmock">Webmock</a>
+* <a href="https://github.com/vcr/vcr">VCR</a>
 
 
 <!-- GETTING STARTED -->
