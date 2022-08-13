@@ -91,13 +91,13 @@ bundle install
 ```
 
 Setup your local database with Postgresql
-```
+```ruby
 rails db:create
 rails db:migrate
 ```
 
 Seed the DB using the pg dump file located in the db directory
-```
+```ruby
 rails db:seed
 ```
 ## Usage
@@ -149,7 +149,7 @@ The response will default to the first page if `page` is not included in the par
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -200,7 +200,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "1",
@@ -237,7 +237,7 @@ The response will default to the first page if `page` is not included in the par
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -286,7 +286,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "4",
@@ -325,7 +325,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 201 Created
 ```
 
-```
+```json
 {
   "data": {
     "id": "16",
@@ -365,7 +365,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
   "data": {
     "id": "16",
@@ -402,7 +402,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
   "data": {
     "id": "16",
@@ -439,7 +439,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "1",
@@ -472,7 +472,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -523,7 +523,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -567,7 +567,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "54",
@@ -604,7 +604,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -650,7 +650,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": null,
@@ -685,7 +685,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "1",
@@ -720,7 +720,7 @@ Name        | Data Type | In    | Required/Optional    | Description
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": {
         "id": "1",
@@ -747,7 +747,7 @@ GET /api/v1/revenue/weekly
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
@@ -789,7 +789,7 @@ GET /api/v1/revenue/unshipped
 Status: 200 OK
 ```
 
-```
+```json
 {
     "data": [
         {
